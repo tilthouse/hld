@@ -1,0 +1,55 @@
+#!/usr/bin/env ruby
+# encoding: UTF-8
+
+require 'json'
+require 'pp'
+
+def load_json_file( filename )
+  JSON.parse( IO.read(filename) )
+end
+
+dd = load_json_file "data/death-demographics/death-demographics.geojson"
+
+DEATH_STAT_KEYS = [
+    'all', 'asthma', 'cancer', 'chd', 'copd', 'deaths3450', 'diabetes', 'pct3450', 'rate3450',
+    'stroke', 'est_pop'
+]
+
+coords_by_sra = {}
+name_by_sra = {}
+death_stats = {}
+dd['features'].each do |feature|
+  sra_id = feature['properties']['sra_id'].to_i
+  year = feature['properties']['year'].to_i
+  #puts "SRA ID: #{sra_id} #{year}"
+  demographics = feature['properties']
+  name_by_sra[sra_id] = demographics['name']
+  geometry = feature['geometry']
+  coordinates =  geometry['coordinates'][0][0]
+  #puts "  #{coordinates.count} map coordinates"
+  coords_by_sra[sra_id] = coordinates
+
+  DEATH_STAT_KEYS.each do |key|
+    death_stats[key] ||= {}
+    death_stats[key][sra_id] ||= {}
+    death_stats[key][sra_id][year] = demographics[key]
+  end
+end
+
+death_stats.each_key do |key|
+  death_stats[key].each_key do |sra_id|
+    death_stats[key][sra_id].keys.sort.each do |year|
+      death_stats[key][sra_id]['by_year'] ||= []
+      death_stats[key][sra_id]['by_year'] << death_stats[key][sra_id][year]
+      death_stats[key][sra_id].delete year
+    end
+  end
+end
+
+death_stats_json = JSON.generate death_stats
+names_by_sra_json = JSON.generate name_by_sra
+coords_by_sra_json = JSON.generate coords_by_sra
+
+File.open('data/json/death_stats.json', 'w') { |f| f.write(death_stats_json) }
+File.open('data/json/names_by_sra.json', 'w') { |f| f.write(names_by_sra_json) }
+File.open('data/json/coords_by_sra.json', 'w') { |f| f.write(coords_by_sra_json) }
