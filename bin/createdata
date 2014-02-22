@@ -15,15 +15,24 @@ DEATH_STAT_KEYS = [
     'stroke', 'est_pop'
 ]
 
+DEMOGRAPHIC_KEYS = ["total_pop",
+  "area",
+  "hispanic",
+  "white",
+  "black",
+  "asian",
+  "veteran"
+]
 coords_by_sra = {}
 name_by_sra = {}
+demographics_by_sra = {}
 death_stats = {}
 dd['features'].each do |feature|
   sra_id = feature['properties']['sra_id'].to_i
   year = feature['properties']['year'].to_i
   #puts "SRA ID: #{sra_id} #{year}"
-  demographics = feature['properties']
-  name_by_sra[sra_id] = demographics['name']
+  properties = feature['properties']
+  name_by_sra[sra_id] = properties['name']
   geometry = feature['geometry']
   coordinates =  geometry['coordinates'][0][0]
   #puts "  #{coordinates.count} map coordinates"
@@ -32,7 +41,12 @@ dd['features'].each do |feature|
   DEATH_STAT_KEYS.each do |key|
     death_stats[key] ||= {}
     death_stats[key][sra_id] ||= {}
-    death_stats[key][sra_id][year] = demographics[key]
+    death_stats[key][sra_id][year] = properties[key]
+  end
+
+  DEMOGRAPHIC_KEYS.each do |key|
+    demographics_by_sra[sra_id] ||= {}
+    demographics_by_sra[sra_id][key] = properties[key]
   end
 end
 
@@ -49,7 +63,9 @@ end
 death_stats_json = JSON.generate death_stats
 names_by_sra_json = JSON.generate name_by_sra
 coords_by_sra_json = JSON.generate coords_by_sra
+demographics_by_sra_json = JSON.generate demographics_by_sra
 
 File.open('data/json/death_stats.json', 'w') { |f| f.write(death_stats_json) }
 File.open('data/json/names_by_sra.json', 'w') { |f| f.write(names_by_sra_json) }
 File.open('data/json/coords_by_sra.json', 'w') { |f| f.write(coords_by_sra_json) }
+File.open('data/json/demographics_by_sra.json', 'w') { |f| f.write(demographics_by_sra_json) }
