@@ -31,6 +31,7 @@ gem 'jbuilder', '~> 1.2'
 
 # Application gems
 gem 'twitter-bootstrap-rails'
+gem 'gon'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

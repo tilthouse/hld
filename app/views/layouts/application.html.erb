@@ -5,12 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= content_for?(:title) ? yield(:title) : "Hld" %></title>
+    <%= include_gon %>
     <%= csrf_meta_tags %>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
     <!--[if lt IE 9]>
       <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js" type="text/javascript"></script>
     <![endif]-->
+
 
     <%= stylesheet_link_tag "application", :media => "all" %>
 
@@ -49,9 +51,9 @@
           <a class="brand" href="#">Hld</a>
           <div class="container-fluid nav-collapse">
             <ul class="nav">
-              <li><%= link_to "Link1", "/path1"  %></li>
-              <li><%= link_to "Link2", "/path2"  %></li>
-              <li><%= link_to "Link3", "/path3"  %></li>
+              <li><%= link_to "Summary Map", summary_path  %></li>
+              <li><%= link_to "Disease Maps", disease_maps_path  %></li>
+              <li><%= link_to "Disease Tables", disease_tables_path  %></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -60,16 +62,16 @@
 
     <div class="container-fluid">
       <div class="row-fluid">
-        <div class="span3">
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header">Sidebar</li>
-              <li><%= link_to "Link1", "/path1"  %></li>
-              <li><%= link_to "Link2", "/path2"  %></li>
-              <li><%= link_to "Link3", "/path3"  %></li>
-            </ul>
-          </div><!--/.well -->
-        </div><!--/span-->
+        <!--<div class="span3">-->
+          <!--<div class="well sidebar-nav">-->
+            <!--<ul class="nav nav-list">-->
+              <!--<li class="nav-header">Sidebar</li>-->
+              <!--<li><%= link_to "Link1", "/path1"  %></li>-->
+              <!--<li><%= link_to "Link2", "/path2"  %></li>-->
+              <!--<li><%= link_to "Link3", "/path3"  %></li>-->
+            <!--</ul>-->
+          <!--</div>&lt;!&ndash;/.well &ndash;&gt;-->
+        <!--</div>&lt;!&ndash;/span&ndash;&gt;-->
         <div class="span9">
           <%= bootstrap_flash %>
           <%= yield %>
