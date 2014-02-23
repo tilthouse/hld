@@ -1,3 +1,4 @@
+
 <script text="text/javascript">
   var width = 960,
       height = 1160;
@@ -6,7 +7,19 @@
       .attr("width", width)
       .attr("height", height);
 
-  d3.json("http://assets.civicknowledge.org/json/sra_coords.geojson", function(error, sras) {
-    console.log(sras);
+  var projection = d3.geo.mercator()
+      .center(['-116.77', '33.02'])
+//      .translate([width / 2, height / 2])
+      .scale(25000);
+
+  var path = d3.geo.path()
+      .projection(projection);
+
+  d3.json("sra_coords.geojson", function(json) {
+    svg.selectAll("path")
+        .data(json.features)
+        .enter()
+        .append("path")
+        .attr("d", path);
   });
 </script>
