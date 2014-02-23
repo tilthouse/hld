@@ -1,8 +1,8 @@
 <h1><%= @disease_name.humanize %> Map</h1>
 
 <script text="text/javascript">
-  var width = 960,
-      height = 1160;
+  var width = 800,
+      height = 600;
 
 
   var svg = d3.select("body").append("svg")
@@ -10,7 +10,7 @@
       .attr("height", height);
 
   var projection = d3.geo.mercator()
-      .center(['-116.77', '33.02'])
+      .center(['-116.60', '33.12'])
       .scale(25000);
 
   var path = d3.geo.path()
@@ -46,5 +46,9 @@
             return '#ccc';
           }
         });
+//        .on("click", function(e) {
+//          console.log('event:',e);
+//          alert("E");
+//        });
   });
 </script>
