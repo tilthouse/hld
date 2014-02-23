@@ -48,7 +48,9 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">3-40-50 Fact Finder</a>
+          <a class="brand" href="#">3-4-50 Fact Finder</a>
+          <%= image_tag 'civic-knowledge.png', class: 'top-logo' %>
+          <%= image_tag 'county-livewell-logos.png', class: 'top-logo' %>
           <div class="container nav-collapse">
             <ul class="nav">
               <li><%= link_to "Summary Map", summary_path  %></li>
@@ -75,12 +77,6 @@
         <div class="span9">
           <%= bootstrap_flash %>
           <%= yield %>
-        </div>
-        <div class="span3">
-          <h3>A Service Of</h3>
-          <%= image_tag 'county-livewell-logos.png', class: 'top-logo' %>
-          <h4>Powered By</h4>
-          <%= image_tag 'civic-knowledge.png'%>
         </div>
       </div><!--/row-->
 

@@ -13,5 +13,7 @@
  */
 
 .top-logo {
-  margin-bottom: 30px;
+  max-height: 30px;
+  float: right;
+  padding: 5px 10px 0 0;
 }
