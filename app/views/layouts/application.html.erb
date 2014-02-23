@@ -40,16 +40,16 @@
   </head>
   <body>
 
-    <div class="navbar navbar-fluid-top">
+    <div class="navbar navbar-top">
       <div class="navbar-inner">
-        <div class="container-fluid">
+        <div class="container">
           <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">Hld</a>
-          <div class="container-fluid nav-collapse">
+          <a class="brand" href="#">3-40-50 Fact Finder</a>
+          <div class="container nav-collapse">
             <ul class="nav">
               <li><%= link_to "Summary Map", summary_path  %></li>
               <li><%= link_to "Disease Maps", disease_maps_path  %></li>
@@ -60,8 +60,8 @@
       </div>
     </div>
 
-    <div class="container-fluid">
-      <div class="row-fluid">
+    <div class="container">
+      <div class="row">
         <!--<div class="span3">-->
           <!--<div class="well sidebar-nav">-->
             <!--<ul class="nav nav-list">-->
@@ -76,7 +76,14 @@
           <%= bootstrap_flash %>
           <%= yield %>
         </div>
+        <div class="span3">
+          <h3>A Service Of</h3>
+          <img src="/assets/county-livewell-logos.png" style="margin-bottom:30px;">
+          <h4>Powered By</h4>
+          <img src="/assets/civic-knowledge.png">
+        </div>  
       </div><!--/row-->
+
     </div> <!-- /container -->
 
   </body>
