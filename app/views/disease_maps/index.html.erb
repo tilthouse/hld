@@ -1,0 +1,6 @@
+<h1>Disease Maps</h1>
+<%- @death_stats_keys.each do |death_stat_name| -%>
+  <h2>
+    <%= link_to death_stat_name.humanize, disease_table_path(death_stat_name) %>
+  </h2>
+<%- end -%>
