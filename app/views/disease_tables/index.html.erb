@@ -1,0 +1,58 @@
+<h1>Available Disease Tables</h1>
+
+<%- @death_stats_keys.each do |death_stat_name| -%>
+  <div id="<%= death_stat_name %>">
+  <h2>
+    <%= link_to death_stat_name.humanize, disease_table_path(death_stat_name) %>
+  </h2>
+  </div>
+
+  <script text="text/javascript">
+    var data_table = new Array();
+    var max = -Infinity;
+    var min = Infinity;
+    for (var i = 0; i < 64; i++) {
+      if (death_stats['<%= death_stat_name %>'][i]) {
+        var row = death_stats['<%= death_stat_name %>'][i]['by_year'];
+        for (var j = 0; j < row.length; j++) {
+          if (row[j] > max) { max = row[j]; };
+          if (row[j] < min) { min = row[j]; };
+        }
+        row.unshift(names_by_sra[i]);
+        data_table.push(row);
+      } else {
+      }
+    };
+    data_table.sort(function(a, b) {
+      return b[b.length - 1] - a[a.length - 1];
+    });
+
+    var buckets = 9;
+    var colors = ['rgb(255,255,204)','rgb(255,237,160)','rgb(254,217,118)','rgb(254,178,76)','rgb(253,141,60)','rgb(252,78,42)','rgb(227,26,28)','rgb(189,0,38)','rgb(128,0,38)'];
+
+    var colorScale = d3.scale.quantile()
+        .domain([0, buckets - 1, max])
+        .range(colors);
+
+    var body = d3.select("#<%= death_stat_name %>");
+
+    var table = body.append("table");
+
+    var tr = table.selectAll("tr")
+        .data(data_table)
+        .enter().append("tr");
+
+    var td = tr.selectAll("td")
+        .data(function(d, i) {
+          return d;
+        })
+        .enter().append("td")
+  //      .text(function(d, i) {
+  //        return d;
+  //      })
+        .style('background-color', function(d){
+          return colorScale(d);
+        });
+
+  </script>
+<%- end -%>

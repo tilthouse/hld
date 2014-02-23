@@ -13,7 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
-//= require turbolinks
 //= require d3/d3
 //= require data/death_stats
 //= require data/coords_by_sra

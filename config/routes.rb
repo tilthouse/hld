@@ -2,7 +2,7 @@ Hld::Application.routes.draw do
 
   resource :summary, only: [:show]
   resource :disease_maps, only: [:show]
-  resource :disease_tables, only: [:show]
+  resources :disease_tables, only: [:index, :show]
   resources :sra, only: [:show]
   resource :welcome, only: [:show]
   # The priority is based upon order of creation: first created -> highest priority.

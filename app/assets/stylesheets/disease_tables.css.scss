@@ -1,3 +1,24 @@
 // Place all the styles related to the disease_tables controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+body.disease_tables.show {
+  table {
+    margin-left: 10px;
+
+    tr {
+      height: 30px;
+
+      td {
+        width: 30px;
+        text-align: right;
+        padding: 3px;
+      }
+
+      td:first-child {
+        width: 200px;
+        padding-right: 5px;
+      }
+    }
+  }
+}
