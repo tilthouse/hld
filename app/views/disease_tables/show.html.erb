@@ -1,29 +1,28 @@
-<h1>Disease Tables</h1>
+<h1><%= @disease_name.humanize %> 2000-2011</h1>
 
 <script text="text/javascript">
-  var cancer = new Array();
+  var data_table = new Array();
   var max = -Infinity;
   var min = Infinity;
   for (var i = 0; i < 64; i++) {
-    if (death_stats['cancer'][i]) {
-      var row = death_stats['cancer'][i]['by_year'];
+    if (death_stats[gon.disease_name][i]) {
+      var row = death_stats[gon.disease_name][i]['by_year'];
       for (var j = 0; j < row.length; j++) {
         if (row[j] > max) { max = row[j]; };
         if (row[j] < min) { min = row[j]; };
       }
       row.unshift(names_by_sra[i]);
-      cancer.push(row);
-      console.log('good row:', i, row);
+      data_table.push(row);
     } else {
-      console.log('bad row:', i);
     }
   };
-  cancer.sort(function(a, b) {
+  data_table.sort(function(a, b) {
     return b[b.length - 1] - a[a.length - 1];
   });
 
   var buckets = 9;
-  var colors = ["#ffffd9","#edf8b1","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#253494","#081d58"]; // alternatively colorbrewer.YlGnBu[9]
+//  var colors = ["#ffffd9","#edf8b1","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#253494","#081d58"]; // alternatively colorbrewer.YlGnBu[9]
+  var colors = ['rgb(255,255,204)','rgb(255,237,160)','rgb(254,217,118)','rgb(254,178,76)','rgb(253,141,60)','rgb(252,78,42)','rgb(227,26,28)','rgb(189,0,38)','rgb(128,0,38)'];
 
   var colorScale = d3.scale.quantile()
       .domain([0, buckets - 1, max])
@@ -34,7 +33,7 @@
   var table = body.append("table");
 
   var tr = table.selectAll("tr")
-      .data(cancer)
+      .data(data_table)
     .enter().append("tr");
 
   var td = tr.selectAll("td")
@@ -43,8 +42,14 @@
       })
     .enter().append("td")
       .text(function(d, i) {
+        if (typeof(d) == 'string') {
+          return d;
+        }
+      })
+      .property("title", function(d) {
         return d;
-      }).style('background-color', function(d){
+      })
+      .style('background-color', function(d){
         return colorScale(d);
       });
 
