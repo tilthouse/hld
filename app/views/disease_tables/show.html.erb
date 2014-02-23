@@ -1,4 +1,51 @@
-<h1>DiseaseTables#show</h1>
-<p>Find me in app/views/disease_tables/show.html.erb</p>
+<h1>Disease Tables</h1>
 
-<p>Six per disease tables.  Each table per SRA, per year.</p>
+<script text="text/javascript">
+  var cancer = new Array();
+  var max = -Infinity;
+  var min = Infinity;
+  for (var i = 0; i < 64; i++) {
+    if (death_stats['cancer'][i]) {
+      var row = death_stats['cancer'][i]['by_year'];
+      for (var j = 0; j < row.length; j++) {
+        if (row[j] > max) { max = row[j]; };
+        if (row[j] < min) { min = row[j]; };
+      }
+      row.unshift(names_by_sra[i]);
+      cancer.push(row);
+      console.log('good row:', i, row);
+    } else {
+      console.log('bad row:', i);
+    }
+  };
+  cancer.sort(function(a, b) {
+    return b[b.length - 1] - a[a.length - 1];
+  });
+
+  var buckets = 9;
+  var colors = ["#ffffd9","#edf8b1","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#253494","#081d58"]; // alternatively colorbrewer.YlGnBu[9]
+
+  var colorScale = d3.scale.quantile()
+      .domain([0, buckets - 1, max])
+      .range(colors);
+
+  var body = d3.select("body");
+
+  var table = body.append("table");
+
+  var tr = table.selectAll("tr")
+      .data(cancer)
+    .enter().append("tr");
+
+  var td = tr.selectAll("td")
+      .data(function(d, i) {
+        return d;
+      })
+    .enter().append("td")
+      .text(function(d, i) {
+        return d;
+      }).style('background-color', function(d){
+        return colorScale(d);
+      });
+
+</script>

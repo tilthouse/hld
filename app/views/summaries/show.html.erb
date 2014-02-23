@@ -1,4 +1,4 @@
-
+<h1>Disease Map, San Diego County</h1>
 <script text="text/javascript">
   var width = 960,
       height = 1160;
@@ -9,17 +9,34 @@
 
   var projection = d3.geo.mercator()
       .center(['-116.77', '33.02'])
-//      .translate([width / 2, height / 2])
       .scale(25000);
 
   var path = d3.geo.path()
       .projection(projection);
 
+  var color = d3.scale.quantize()
+      .range(["#ffeda0", "#feb24c", "#f03b20"]);
+
   d3.json("sra_coords.geojson", function(json) {
+    color.domain([
+      d3.min(json, function(d) { return d.properties.rate3450}),
+      d3.max(json, function(d) { return d.properties.rate3450})
+    ]);
+
+    console.log('color:', color);
+
     svg.selectAll("path")
         .data(json.features)
         .enter()
         .append("path")
-        .attr("d", path);
+        .attr("d", path)
+        .style("fill", function(d) {
+          var value = d.properties.rate3450;
+          if (value) {
+            return color(value);
+          } else {
+            return '#ccc';
+          }
+        });
   });
 </script>
