@@ -1,7 +1,7 @@
 Hld::Application.routes.draw do
 
   resource :summary, only: [:show]
-  resource :disease_maps, only: [:show]
+  resources :disease_maps, only: [:index, :show]
   resources :disease_tables, only: [:index, :show]
   resources :sra, only: [:show]
   resource :welcome, only: [:show]
